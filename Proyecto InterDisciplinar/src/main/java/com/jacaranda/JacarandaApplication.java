@@ -7,7 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-@SpringBootApplication(scanBasePackages = {"com.jacaranda.controller", "com.jacaranda.service"})
+@SpringBootApplication(scanBasePackages = {"com.jacaranda.*", "com.jacaranda.controller", "com.jacaranda.service"})
 @EntityScan
 @EnableJpaRepositories
 

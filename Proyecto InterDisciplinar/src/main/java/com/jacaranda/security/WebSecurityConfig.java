@@ -28,8 +28,6 @@ import com.jacaranda.security.model.UserRole;
 import com.jacaranda.security.service.UserService;
 
 
-
-
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -51,29 +49,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		return super.authenticationManagerBean();
 	}
 		
-	@Override
+	/*@Override
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().anyRequest();
-	}
+	}*/
+
 	
-
-//	@Override
-//	protected void configure(HttpSecurity http) throws Exception {
-//		http
-//			.authorizeRequests()
-//				.antMatchers("/*").permitAll()
-//				.anyRequest().authenticated()
-//				.and()
-//			.formLogin()
-//				.loginPage("/login")
-//				.permitAll()
-//				.and()
-//			.logout()
-//				.permitAll();
-//	}
-
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		
 		http.cors().and().csrf().disable().authorizeRequests()
 			.antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
 			.antMatchers(HttpMethod.POST, SecurityConstants.LOG_IN).permitAll()
@@ -86,10 +70,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 	}
 
-	
-	@Bean
-	public PasswordEncoder passwordEnconder() {
-		return new BCryptPasswordEncoder();
-	}
+
 
 }
