@@ -14,14 +14,13 @@ public class UpdateService {
 		original.setSurname((sent.getSurname() == null) ? original.getSurname() : sent.getSurname());
 		original.setDni((sent.getDni() == null) ? original.getDni() : sent.getDni());
 		original.setPedidos((sent.getPedidos() == null) ? original.getPedidos() : sent.getPedidos());
-		original.setUsername((sent.getUsername() == null) ? original.getUsername() : sent.getUsername());
-		original.setPassword((sent.getPassword() == null) ? original.getPassword() : sent.getPassword());
+
 	}
 	
 	
 	public void updatePedido (Pedido original, Pedido sent) {
 		original.setEstado((sent.getEstado() == null) ? original.getEstado() : sent.getEstado());
-		original.setCustomerId((sent.getCustomerId() == 0) ? original.getCustomerId() : sent.getCustomerId());
+		original.setCustomer((sent.getCustomer() == null) ? original.getCustomer() : sent.getCustomer());
 		original.setTotal((sent.getTotal() == 0) ? original.getTotal() : sent.getTotal());
 		original.setProductos((sent.getProductos() == null) ? original.getProductos() : sent.getProductos());
 		original.setDireccion((sent.getDireccion() == null) ? original.getDireccion() : sent.getDireccion());

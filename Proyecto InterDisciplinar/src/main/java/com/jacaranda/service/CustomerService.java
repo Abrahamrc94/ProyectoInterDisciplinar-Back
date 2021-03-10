@@ -75,7 +75,7 @@ public class CustomerService {
 		Customer auxCustomer = customerRepository.findCustomerBycustomerId(idCustomer);
 		
 		// se inserta el id de cliente en el pedido
-		newPedido.setCustomerId(idCustomer);
+		newPedido.setCustomer(auxCustomer);
 			
 		// se guarda el pedido en la BBDD
 		pedidoRepository.save(newPedido);

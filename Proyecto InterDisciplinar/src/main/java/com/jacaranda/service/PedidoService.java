@@ -56,16 +56,19 @@ public class PedidoService {
 	
 	
 	//Actualizar un pedido
-	public ResponseEntity<?> updatePedido(Long id, Pedido sent) {
+	public Pedido updatePedido(Long id, Pedido sent) {
 		Pedido p = pedidoRepository.findPedidoById(id);
-		ResponseEntity<?> response;
-		if (p == null) {
-			response = ResponseEntity.notFound().build();
-		} else {
+
 			updateService.updatePedido(p, sent);
-			response = ResponseEntity.ok(pedidoRepository.save(p));
-		}
-		return response;
+			pedidoRepository.save(p);
+			
+			return p;
+	}
+
+	//Añade una valoración a un pedido
+	public void valoraPedido(Pedido p, String valoracion) {
+		
+		p.setValoracion(valoracion);		
 	}
 	
 }

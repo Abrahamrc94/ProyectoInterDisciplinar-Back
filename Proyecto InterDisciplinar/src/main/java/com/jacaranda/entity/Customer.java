@@ -7,10 +7,15 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import com.jacaranda.security.model.User;
 
 
 
@@ -24,29 +29,25 @@ public class Customer implements Serializable{
 	private String name;
 	private String surname;
 	private String dni;
-	@Column(nullable = false)
-	private String username;// Un nick para el usuario
-	@Column(nullable = false)
-	private String password;
 		
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Pedido> pedidos;
 	
 	
-	
+	@OneToOne
+	@JoinColumn(name = "idUser", foreignKey = @ForeignKey(name = "FK_CUSTOMER_USER"))
+	private User user;
 	
 	public Customer() {
 		super();
+		pedidos = new ArrayList<Pedido>();
 	}
 
-	public Customer(String name, String surname, String dni, Long id, String username, String password) {
+	public Customer(String name, String surname, String dni) {
 		super();
 		this.name = name;
 		this.surname = surname;
 		this.dni = dni;
-		this.customerId = id;
-		this.username = username;
-		this.password = password;
 		pedidos = new ArrayList<Pedido>();
 	}
 
@@ -91,21 +92,12 @@ public class Customer implements Serializable{
 		this.pedidos = pedidos;
 	}
 
-	public String getUsername() {
-		return username;
+	@Override
+	public String toString() {
+		return "Customer [customerId=" + customerId + ", name=" + name + ", surname=" + surname + ", dni=" + dni
+				+ ", pedidos=" + pedidos + ", user=" + user + "]";
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
 	
 
 	

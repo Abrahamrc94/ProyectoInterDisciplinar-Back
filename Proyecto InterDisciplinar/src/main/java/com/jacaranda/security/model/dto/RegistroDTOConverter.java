@@ -7,21 +7,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import com.jacaranda.security.model.dto.UserDTO;
+import com.jacaranda.entity.Customer;
 import com.jacaranda.security.model.User;
 import com.jacaranda.security.model.UserRole;
 
 @Component
-public class UserDTOConverter {
+public class RegistroDTOConverter {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
-	public User fromUserDTOToUser(UserDTO dto) {
+	public User fromRegistroDTOToUser(RegistroDto dto) {
 		User user  = new User();
 		user.setUsername(dto.getUsername());
-		// Recall
-		//passwordEncoder.matches("1234", "$2a$10$klljZRCKUsItpuhhWjt/OOuQotVva/ADfOQDBtWNIJBBX5d88sZNm");
 		user.setPassword(passwordEncoder.encode(dto.getPassword()));
 		user.setRoles(Set.of(UserRole.USER));
 		user.setCreateTime(LocalDateTime.now());
@@ -34,6 +32,22 @@ public class UserDTOConverter {
 		return user;
 		
 	}
+	
+	
+	public Customer fromRegistroDtoToCustomer(RegistroDto dto) {
+		
+		Customer customer = new Customer();
+		customer.setName(dto.getNombre());
+		customer.setSurname(dto.getApellido());
+		customer.setDni(dto.getDni());
+		
+		return customer;
+		
+	}
+	
+	
+	
+	
 	
 	public UserDTO fromUserToUserDTO(User user) {
 		UserDTO dto = new UserDTO();

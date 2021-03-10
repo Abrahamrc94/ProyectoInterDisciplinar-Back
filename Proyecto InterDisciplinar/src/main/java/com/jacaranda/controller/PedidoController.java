@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jacaranda.entity.Customer;
 import com.jacaranda.entity.Pedido;
 import com.jacaranda.entity.Producto;
+import com.jacaranda.pedido.enumerate.Estado;
 import com.jacaranda.service.PedidoService;
 import com.jacaranda.service.Error.Errores;
 
@@ -63,7 +64,40 @@ public class PedidoController {
 	//Modifica un pedido PUT
 	@PutMapping(path = "/pedido/{id}")
 	public ResponseEntity<?> updatePedido(@PathVariable Long id, @RequestBody Pedido sent) {
-		return pedidoService.updatePedido(id, sent);
+		
+		ResponseEntity<?> response = null;
+		
+		if(sent == null) {
+			response = ResponseEntity.status(HttpStatus.CONFLICT).body(Errores.ERROR_EN_EL_PEDIDO);
+		}else if(sent.getEstado().equals(Estado.ENTREGADO)) {
+			response = ResponseEntity.status(HttpStatus.CONFLICT).body(Errores.ESTADO_DEL_PEDIDO);
+		}else {
+			pedidoService.updatePedido(id, sent);
+			response = ResponseEntity.status(HttpStatus.ACCEPTED).body("Pedido actualizado");
+		}
+		
+		return response;
 	}
+	
+		//Añade una valoracion a un pedido
+		@PutMapping(path = "/pedido/{id}")
+		public ResponseEntity<?> valoraPedido(@PathVariable Long id, @RequestBody String valoracion) {
+			
+			ResponseEntity<?> response = null;
+			Pedido p = pedidoService.getPedidoById(id);
+			
+			if(p == null) {
+				response = ResponseEntity.status(HttpStatus.CONFLICT).body(Errores.ERROR_EN_EL_PEDIDO);
+			}else if(p.getEstado()!=(Estado.ENTREGADO)) {
+				response = ResponseEntity.status(HttpStatus.CONFLICT).body(Errores.VALORACION_DEL_PEDIDO);
+			}else if(p.getValoracion() != null){
+				response = ResponseEntity.status(HttpStatus.CONFLICT).body(Errores.YA_VALORADO);
+			}else{
+				pedidoService.valoraPedido(p, valoracion);
+				response = ResponseEntity.status(HttpStatus.ACCEPTED).body("Valoracion realizada con exito");
+			}
+			
+			return response;
+		}
 	
 }

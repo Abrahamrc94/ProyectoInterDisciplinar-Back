@@ -21,9 +21,11 @@ import com.jacaranda.pedido.enumerate.Estado;
 @Entity
 public class Pedido implements Serializable{
 
-	//@ManyToOne
-	//@JoinColumn(name = "customerId", foreignKey = @ForeignKey(name = "Customer_ID_FK"))
-	private Long customerId;
+	@ManyToOne
+	@JoinColumn(name = "customerId", foreignKey = @ForeignKey(name = "Customer_ID_FK"))
+	private Customer customer;
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long  id;
@@ -45,9 +47,9 @@ public class Pedido implements Serializable{
 	}
 
 
-	public Pedido(Long customerId, Long id, int total, String direccion, String valoracion) {
+	public Pedido(Customer customer, Long id, int total, String direccion, String valoracion) {
 		super();
-		this.customerId = customerId;
+		this.customer = customer;
 		this.id = id;
 		this.total = total;
 		this.direccion = direccion;
@@ -85,13 +87,13 @@ public class Pedido implements Serializable{
 	}
 
 
-	public Long getCustomerId() {
-		return customerId;
+	public Customer getCustomer() {
+		return customer;
 	}
 
 
-	public void setCustomerId(Long idCustomer) {
-		this.customerId = idCustomer;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 
