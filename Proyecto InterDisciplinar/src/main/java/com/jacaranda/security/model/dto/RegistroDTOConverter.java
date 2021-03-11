@@ -10,12 +10,16 @@ import org.springframework.stereotype.Component;
 import com.jacaranda.entity.Customer;
 import com.jacaranda.security.model.User;
 import com.jacaranda.security.model.UserRole;
+import com.jacaranda.security.repo.UserRepository;
 
 @Component
 public class RegistroDTOConverter {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private UserRepository userRepo;
 	
 	public User fromRegistroDTOToUser(RegistroDto dto) {
 		User user  = new User();
@@ -37,14 +41,15 @@ public class RegistroDTOConverter {
 	public Customer fromRegistroDtoToCustomer(RegistroDto dto) {
 		
 		Customer customer = new Customer();
-		customer.setName(dto.getNombre());
-		customer.setSurname(dto.getApellido());
+		customer.setName(dto.getName());
+		customer.setSurname(dto.getSurname());
 		customer.setDni(dto.getDni());
+		User newUser = userRepo.findUserByUsername(dto.getUsername());
+		customer.setUser(newUser);
 		
 		return customer;
 		
 	}
-	
 	
 	
 	

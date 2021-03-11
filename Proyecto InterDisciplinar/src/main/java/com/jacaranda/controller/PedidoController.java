@@ -80,7 +80,7 @@ public class PedidoController {
 	}
 	
 		//Añade una valoracion a un pedido
-		@PutMapping(path = "/pedido/{id}")
+		@PutMapping(path = "/pedido/valorar/{id}")
 		public ResponseEntity<?> valoraPedido(@PathVariable Long id, @RequestBody String valoracion) {
 			
 			ResponseEntity<?> response = null;

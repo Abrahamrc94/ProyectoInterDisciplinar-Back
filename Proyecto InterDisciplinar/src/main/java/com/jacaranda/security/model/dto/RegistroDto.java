@@ -3,40 +3,40 @@ package com.jacaranda.security.model.dto;
 public class RegistroDto {
 
 	//Atributos
-	private String nombre;
-	private String apellido;
+	private String name;
+	private String surname;
 	private String dni;
 	private String username;
 	private String password;
 	
 	
-	public RegistroDto(String nombre, String apellido, String dni, String username, String password) {
+	public RegistroDto(String name, String surname, String dni, String username, String password) {
 		super();
-		this.nombre = nombre;
-		this.apellido = apellido;
+		this.name = name;
+		this.surname = surname;
 		this.dni = dni;
 		this.username = username;
 		this.password = password;
 	}
 
 
-	public String getNombre() {
-		return nombre;
+	public String getName() {
+		return name;
 	}
 
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 
-	public String getApellido() {
-		return apellido;
+	public String getSurname() {
+		return surname;
 	}
 
 
-	public void setApellido(String apellido) {
-		this.apellido = apellido;
+	public void setSurname(String surname) {
+		this.surname = surname;
 	}
 
 

@@ -92,11 +92,15 @@ public class Customer implements Serializable{
 		this.pedidos = pedidos;
 	}
 
-	@Override
-	public String toString() {
-		return "Customer [customerId=" + customerId + ", name=" + name + ", surname=" + surname + ", dni=" + dni
-				+ ", pedidos=" + pedidos + ", user=" + user + "]";
+	public User getUser() {
+		return user;
 	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+
 
 	
 
