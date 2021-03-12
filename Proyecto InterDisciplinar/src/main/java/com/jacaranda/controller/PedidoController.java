@@ -61,21 +61,30 @@ public class PedidoController {
 	}
 	
 	
+		//Cambia el estado del pedido al siguiente paso
+		@PostMapping("/pedido/estado/{id}")
+		public ResponseEntity<?> avanzaEstado(@PathVariable Long id) {
+					
+			ResponseEntity<?> response = null;
+			Pedido resultado = pedidoService.avanzaEstado(id);
+					
+			if (resultado == null) {
+				response = ResponseEntity.status(HttpStatus.CONFLICT).body(Errores.INDETERMINADO);
+			} else {
+				response = ResponseEntity.status(HttpStatus.OK).body(resultado);
+			}
+					
+			return response;
+		}
+	
+	
+	
 	//Modifica un pedido PUT
 	@PutMapping(path = "/pedido/{id}")
 	public ResponseEntity<?> updatePedido(@PathVariable Long id, @RequestBody Pedido sent) {
 		
 		ResponseEntity<?> response = null;
-		
-		if(sent == null) {
-			response = ResponseEntity.status(HttpStatus.CONFLICT).body(Errores.ERROR_EN_EL_PEDIDO);
-		}else if(sent.getEstado().equals(Estado.ENTREGADO)) {
-			response = ResponseEntity.status(HttpStatus.CONFLICT).body(Errores.ESTADO_DEL_PEDIDO);
-		}else {
-			pedidoService.updatePedido(id, sent);
-			response = ResponseEntity.status(HttpStatus.ACCEPTED).body("Pedido actualizado");
-		}
-		
+		response = pedidoService.updatePedido(id, sent);
 		return response;
 	}
 	
@@ -85,18 +94,7 @@ public class PedidoController {
 			
 			ResponseEntity<?> response = null;
 			Pedido p = pedidoService.getPedidoById(id);
-			
-			if(p == null) {
-				response = ResponseEntity.status(HttpStatus.CONFLICT).body(Errores.ERROR_EN_EL_PEDIDO);
-			}else if(p.getEstado()!=(Estado.ENTREGADO)) {
-				response = ResponseEntity.status(HttpStatus.CONFLICT).body(Errores.VALORACION_DEL_PEDIDO);
-			}else if(p.getValoracion() != null){
-				response = ResponseEntity.status(HttpStatus.CONFLICT).body(Errores.YA_VALORADO);
-			}else{
-				pedidoService.valoraPedido(p, valoracion);
-				response = ResponseEntity.status(HttpStatus.ACCEPTED).body("Valoracion realizada con exito");
-			}
-			
+			response = pedidoService.valoraPedido(p, valoracion);
 			return response;
 		}
 	

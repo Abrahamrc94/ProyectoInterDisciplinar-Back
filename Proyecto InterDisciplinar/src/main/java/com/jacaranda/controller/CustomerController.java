@@ -81,9 +81,6 @@ public class CustomerController {
 		
 		
 		
-		
-		
-		
 		//Asigna un pedido al customer
 		@PostMapping("/customer/{id}")
 		public ResponseEntity<?> addPedido(@RequestBody Pedido newPedido, @PathVariable Long id) {

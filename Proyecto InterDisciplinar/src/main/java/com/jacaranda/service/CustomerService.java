@@ -99,6 +99,9 @@ public class CustomerService {
 			response = ResponseEntity.notFound().build();
 		} else {
 			updateService.updateCustomer(c, sent);
+			for (Pedido p : c.getPedidos()) {
+				p.setCustomer(c);
+			}
 			response = ResponseEntity.ok(customerRepository.save(c));
 		}
 		return response;

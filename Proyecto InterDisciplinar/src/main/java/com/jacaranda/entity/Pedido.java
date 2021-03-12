@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jacaranda.pedido.enumerate.Estado;
 
 @Entity
@@ -23,6 +24,7 @@ public class Pedido implements Serializable{
 
 	@ManyToOne
 	@JoinColumn(name = "customerId", foreignKey = @ForeignKey(name = "Customer_ID_FK"))
+	@JsonIgnore
 	private Customer customer;
 	
 	

@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.jacaranda.entity.Pedido;
 import com.jacaranda.entity.Producto;
+import com.jacaranda.pedido.enumerate.Estado;
 import com.jacaranda.repo.PedidoRepository;
 import com.jacaranda.repo.ProductoRepository;
+import com.jacaranda.service.Error.Errores;
 
 @Service
 public class PedidoService {
@@ -56,19 +58,54 @@ public class PedidoService {
 	
 	
 	//Actualizar un pedido
-	public Pedido updatePedido(Long id, Pedido sent) {
+	public ResponseEntity<?> updatePedido(Long id, Pedido sent) {
 		Pedido p = pedidoRepository.findPedidoById(id);
 
+		ResponseEntity<?> response = null;
+		
+		if(sent == null) {
+			response = ResponseEntity.status(HttpStatus.CONFLICT).body(Errores.ERROR_EN_EL_PEDIDO);
+		}else if(sent.getEstado().equals(Estado.ENTREGADO)) {
+			response = ResponseEntity.status(HttpStatus.CONFLICT).body(Errores.ESTADO_DEL_PEDIDO);
+		}else {
 			updateService.updatePedido(p, sent);
 			pedidoRepository.save(p);
+			response = ResponseEntity.status(HttpStatus.ACCEPTED).body("Pedido actualizado");
+		}
 			
-			return p;
+			return response;
 	}
 
 	//Añade una valoración a un pedido
-	public void valoraPedido(Pedido p, String valoracion) {
+	public ResponseEntity<?> valoraPedido(Pedido p, String valoracion) {
 		
-		p.setValoracion(valoracion);		
+		ResponseEntity<?> response = null;
+		if(p == null) {
+			response = ResponseEntity.status(HttpStatus.CONFLICT).body(Errores.ERROR_EN_EL_PEDIDO);
+		}else if(p.getEstado()!=(Estado.ENTREGADO)) {
+			response = ResponseEntity.status(HttpStatus.CONFLICT).body(Errores.VALORACION_DEL_PEDIDO);
+		}else if(p.getValoracion() != null){
+			response = ResponseEntity.status(HttpStatus.CONFLICT).body(Errores.YA_VALORADO);
+		}else{
+			p.setValoracion(valoracion);
+			pedidoRepository.save(p);
+			response = ResponseEntity.status(HttpStatus.ACCEPTED).body("Valoracion realizada con exito");
+		}
+		
+		return response;
+		
+	}
+
+	
+	//Actualiza el estado
+	public Pedido avanzaEstado(Long id) {
+		
+		Pedido p = pedidoRepository.findPedidoById(id);
+		int pos = p.getEstado().ordinal();
+		p.setEstado(Estado.values()[pos + 1]);
+		pedidoRepository.save(p);
+		
+		return p;
 	}
 	
 }
